@@ -22,7 +22,7 @@ def initialize_storage(filename: str):
 
     cur.execute('''CREATE TABLE IF NOT EXISTS potentiometer_configs (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    value TEXT NOT NULL,
+                    value INTEGER NOT NULL,
                     potentiometer_id INTEGER NOT NULL,
                     config_id INTEGER NOT NULL
                 )''')

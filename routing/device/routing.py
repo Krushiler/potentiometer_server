@@ -53,7 +53,7 @@ async def create_potentiometer_config(token: Annotated[str, Depends(oauth2_schem
                                       device_id: int, config_id: int, potentiometer_id: int,
                                       request: CreatePotentiometerConfigRequest,
                                       device_repo=Depends(get_device_repository)):
-    await device_repo.create_potentiometer_config(request.value, potentiometer_id, config_id)
+    await device_repo.create_potentiometer_config(device_id, request.value, potentiometer_id, config_id)
     return True
 
 
@@ -62,7 +62,7 @@ async def update_potentiometer_config(token: Annotated[str, Depends(oauth2_schem
                                       device_id: int, potentiometer_config_id,
                                       request: CreatePotentiometerConfigRequest,
                                       device_repo=Depends(get_device_repository)):
-    await device_repo.update_potentiometer_config(potentiometer_config_id, request.value)
+    await device_repo.update_potentiometer_config(device_id, potentiometer_config_id, request.value)
     return True
 
 

@@ -19,4 +19,4 @@ class CreateConfigRequest(BaseModel):
 
 
 class CreatePotentiometerConfigRequest(BaseModel):
-    value: str
+    value: int

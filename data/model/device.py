@@ -17,7 +17,7 @@ class Potentiometer(BaseModel):
 
 class PotentiometerConfig(BaseModel):
     id: int
-    value: str
+    value: int
     potentiometer_id: int
     config_id: int
 
