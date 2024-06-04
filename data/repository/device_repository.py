@@ -13,6 +13,7 @@ class DeviceRepository:
             "INSERT INTO devices (name, mac_address, user_id) VALUES (?, ?, ?)",
             (name, mac_address, user_id),
         )
+        self._conn.commit()
 
     async def get_devices(self, user_id: int) -> list[Device]:
         cur = self._conn.cursor()
@@ -23,8 +24,11 @@ class DeviceRepository:
         fetched_devices = cur.fetchall()
         devices = []
         for device in fetched_devices:
+            config_id = None
+            if device[2] is not None:
+                config_id = int(device[2])
             devices.append(
-                Device(id=int(device[0]), name=device[1], active_config=int(device[2]), mac_address=device[3],
+                Device(id=int(device[0]), name=device[1], active_config=config_id, mac_address=device[3],
                        user_id=int(device[4]))
             )
         return devices
@@ -35,6 +39,7 @@ class DeviceRepository:
             "UPDATE devices SET active_config = ? WHERE id = ?",
             (str(config_id), str(device_id)),
         )
+        self._conn.commit()
 
     async def create_config(self, name: str, device_id: int):
         cur = self._conn.cursor()
@@ -42,6 +47,7 @@ class DeviceRepository:
             "INSERT INTO configs (name, device_id) VALUES (?, ?)",
             (name, str(device_id))
         )
+        self._conn.commit()
 
     async def get_configs(self, device_id: int) -> list[Config]:
         cur = self._conn.cursor()
@@ -63,6 +69,7 @@ class DeviceRepository:
             "INSERT INTO potentiometers (name, device_id) VALUES (?, ?)",
             (name, str(device_id))
         )
+        self._conn.commit()
 
     async def get_potentiometers(self, device_id: int) -> list[Potentiometer]:
         cur = self._conn.cursor()
@@ -84,6 +91,7 @@ class DeviceRepository:
             "INSERT INTO potentiometer_configs (value, potentiometer_id, config_id) VALUES (?, ?, ?)",
             (value, str(potentiometer_id), str(config_id))
         )
+        self._conn.commit()
 
     async def get_potentiometer_configs(self, config_id: int) -> list[PotentiometerConfig]:
         cur = self._conn.cursor()
@@ -105,6 +113,7 @@ class DeviceRepository:
             "UPDATE potentiometer_configs SET value = ? WHERE id = ?",
             (value, str(potentiometer_config_id)),
         )
+        self._conn.commit()
 
     def close(self):
         self._conn.close()

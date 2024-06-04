@@ -46,3 +46,42 @@ async def register_potentiometer(token: Annotated[str, Depends(oauth2_scheme)], 
 async def get_potentiometers(token: Annotated[str, Depends(oauth2_scheme)], device_id: int,
                              device_repo=Depends(get_device_repository)):
     return await device_repo.get_potentiometers(device_id)
+
+
+@router.put('/{device_id}/configs/{config_id}/potentiometers/{potentiometer_id}/configs')
+async def create_potentiometer_config(token: Annotated[str, Depends(oauth2_scheme)],
+                                      device_id: int, config_id: int, potentiometer_id: int,
+                                      request: CreatePotentiometerConfigRequest,
+                                      device_repo=Depends(get_device_repository)):
+    await device_repo.create_potentiometer_config(request.value, potentiometer_id, config_id)
+    return True
+
+
+@router.put('/{device_id}/potentiometer-configs/{potentiometer_config_id}')
+async def update_potentiometer_config(token: Annotated[str, Depends(oauth2_scheme)],
+                                      device_id: int, potentiometer_config_id,
+                                      request: CreatePotentiometerConfigRequest,
+                                      device_repo=Depends(get_device_repository)):
+    await device_repo.update_potentiometer_config(potentiometer_config_id, request.value)
+    return True
+
+
+@router.get('/{device_id}/configs/{config_id}', response_model=list[PotentiometerConfig])
+async def get_potentiometer_configs(token: Annotated[str, Depends(oauth2_scheme)], device_id: int,
+                                    config_id: int,
+                                    device_repo=Depends(get_device_repository)):
+    return await device_repo.get_potentiometer_configs(config_id)
+
+
+@router.put('/{device_id}/configs', response_model=bool)
+async def create_device_config(token: Annotated[str, Depends(oauth2_scheme)], device_id: int,
+                               request: CreateConfigRequest,
+                               device_repo=Depends(get_device_repository)):
+    await device_repo.create_config(request.name, device_id)
+    return True
+
+
+@router.get('/{device_id}/configs', response_model=list[Config])
+async def get_device_configs(token: Annotated[str, Depends(oauth2_scheme)], device_id: int,
+                             device_repo=Depends(get_device_repository)):
+    return await device_repo.get_configs(device_id)

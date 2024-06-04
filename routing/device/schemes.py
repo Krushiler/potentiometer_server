@@ -12,3 +12,11 @@ class SetActiveConfigRequest(BaseModel):
 
 class CreatePotentiometerRequest(BaseModel):
     name: str
+
+
+class CreateConfigRequest(BaseModel):
+    name: str
+
+
+class CreatePotentiometerConfigRequest(BaseModel):
+    value: str
