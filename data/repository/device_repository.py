@@ -39,8 +39,8 @@ class DeviceRepository:
                 'name': p.name,
             })
         result = json.dumps(result)
-        self._client.publish(f"isu/potentiometers/{mac}/update", str(result))
-        print(f"Published {str(result)} to isu/potentiometers/{mac}/update")
+        self._client.publish(f"{mac}", str(result))
+        print(f"Published {str(result)} to {mac}")
 
     async def create_device(self, name: str, mac_address: str, user_id: int):
         cur = self._conn.cursor()

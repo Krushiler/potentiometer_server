@@ -11,4 +11,4 @@ app = FastAPI()
 app.include_router(device_router, prefix='/device')
 app.include_router(auth_router, prefix='/auth')
 
-uvicorn.run(app, host="192.168.0.100", port=5000)
+uvicorn.run(app, host="192.168.43.58", port=5000)
